@@ -6,9 +6,6 @@
     --gray: #EAEFEF;
     --black: #000000;   
 }
-#root{
-    overflow: hidden;
-}
 *{
     margin: 0;
     padding: 0;
@@ -16,7 +13,13 @@
     --o-box-sizing: border-box;
     --webkit-box-sizing: border-box;
     box-sizing: border-box;
+    /* overflow: hidden; */
 }
+
+#root{
+    overflow-x: hidden;
+}
+
 
 .out-loader{
     animation:out-loader-spinner infinite linear 5s;

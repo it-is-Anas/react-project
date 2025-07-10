@@ -7,6 +7,6 @@ interface props{
 
 export default function LogLink({label='',to=''}:props){
     return (
-        <Link className="font-[400] text-[.8em] text-[var(--dark-blue)]" to={ to }  >{ label } </Link>
+        <Link className="font-[400] text-[.8em] text-[var(--dark-blue)] my-[.6em]" to={ to }  >{ label } </Link>
     );
 }

@@ -32,7 +32,7 @@ export default function AppMessage({pushLogic}:props){
 
     if(opened)
         return (
-            <p className="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--gray)] px-[1.24em] py-[.5em] rounded-[5px] font-[600] ">{ message }</p>
+            <p className="fixed bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--gray)] px-[1.24em] py-[.5em] rounded-[5px] font-[600] ">{ message }</p>
         );
     return null;
 }
