@@ -6,7 +6,9 @@
     --gray: #EAEFEF;
     --black: #000000;   
 }
-
+#root{
+    overflow: hidden;
+}
 *{
     margin: 0;
     padding: 0;

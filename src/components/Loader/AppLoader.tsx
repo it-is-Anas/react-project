@@ -10,18 +10,15 @@ export default function AppLoader({pushLogic}: props){
 
 
     const open = ()=>{
-        console.log('Loader open');
         setOpened(true);
     };
     const close = ()=>{
-        console.log('Loader close');
         setOpened(false);
     };
 
 
     useEffect(()=>{
         if(pushLogic){
-            console.log('loader ok');
             pushLogic([open,close]);
         }
     },[pushLogic]);

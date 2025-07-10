@@ -2,15 +2,21 @@ import { useRef, useState } from 'react';
 import LogInImg from '../../assets/SystemeSVG/LogIn.svg';
 import IconBtn from '../../components/Buttons/IconBtn';
 import WidBlueBtn from '../../components/Buttons/WidBlueBtn';
-import CheckBox from '../../components/Checkbox/CheckBox';
 import InputFiled from '../../components/Inputs/InputFiled';
 import LogLink from '../../components/Links/LogLink';
 import AppLoader from '../../components/Loader/AppLoader';
 import AppMessage from '../../components/AppMessage/AppMessage';
+import axios from 'axios';
+
+
+import { useDispatch, useSelector } from 'react-redux';
+import { updateData } from '../../Store/Slices/Auth';
+
+
 export default function LogIn(){
-    const [email,setEmail] = useState<string>('ss@ss.ss');
+    const dispatch = useDispatch();
+    const [email,setEmail] = useState<string>('nnew@shopy.com');
     const [password,setPassword] = useState<string>('12345678');
-    const [rememberMe , setRememberMe] = useState<boolean>(false);
     
 
     const loaderLogic = useRef<([() => void, () => void])>(null);
@@ -41,7 +47,6 @@ export default function LogIn(){
     };
     
 
-    const print = ()=>console.log(email,password,rememberMe);
 
 
     const validate = ()=>{
@@ -63,15 +68,34 @@ export default function LogIn(){
 
     
 
-    const logIn = ()=>{
+    const logIn = async ()=>{
         const validated = validate();
         if(typeof(validated) === 'string'){
             message(validated)
             return ;
         }
-
-        message('LOGGING');
         openLoader();
+        try{
+            const response = await axios.post('http://localhost:3000/user/log-in',{
+                email,
+                password,
+            });
+            
+            if(response.status === 201){
+                message(response.data.message);
+                dispatch(updateData({token: response.data.token,user: response.data.user}))
+            }
+            closeLoader();
+        }catch(err){            
+            closeLoader();
+            if(err.status === 422){
+                message('Email and Password not match !');
+            }else if(err.status === 400){
+                message(err.response.data.message[0]);
+            }else{
+                message('Somthing went wrong !');
+            }
+        };
     }
 
     return (
@@ -86,7 +110,6 @@ export default function LogIn(){
             </div>
             <InputFiled label='email' placeHolader='Younes@example.com' value={email} onChange={setEmail} />
             <InputFiled label='password' placeHolader='********' type='password' value={password} onChange={setPassword}  />
-            <CheckBox label='Remeber me' value={rememberMe} onChange={setRememberMe} />
             <WidBlueBtn onClick={logIn} label='Log in' />
             <LogLink label={'Don\'t have account?'} to='/log/sign-up' />
         </div>
