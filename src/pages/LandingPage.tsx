@@ -20,7 +20,7 @@ import LandingPageHeadLine from "../components/HeadLines/LandingPageHeadLine";
 import LandingPageService from "../components/Card/LandingPageService";
 import InputFiled from "../components/Inputs/InputFiled";
 import TextFiled from "../components/Inputs/TextField";
-import GreenBtn from "../components/Buttons/GreenBtn";
+import WidGreenBtn from "../components/Buttons/WidGreenBtn";
 
 
 export default function LandingPage(){
@@ -110,7 +110,7 @@ export default function LandingPage(){
                         <InputFiled />
                         <InputFiled />
                         <TextFiled />
-                        <GreenBtn label="Send" />
+                        <WidGreenBtn label="Send" />
                     </div>
                     
                 </div>
