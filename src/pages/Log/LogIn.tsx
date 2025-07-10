@@ -6,8 +6,9 @@ import CheckBox from '../../components/Checkbox/CheckBox';
 import InputFiled from '../../components/Inputs/InputFiled';
 import LogLink from '../../components/Links/LogLink';
 import AppLoader from '../../components/Loader/AppLoader';
+import AppMessage from '../../components/AppMessage/AppMessage';
 export default function LogIn(){
-    const [email,setEmail] = useState<string>('ahmad@shaheed.com');
+    const [email,setEmail] = useState<string>('ss@ss.ss');
     const [password,setPassword] = useState<string>('12345678');
     const [rememberMe , setRememberMe] = useState<boolean>(false);
     
@@ -27,6 +28,18 @@ export default function LogIn(){
             loaderLogic.current[1]();
         }
     };
+    
+    const messageLogic = useRef<((message: string)=> void)>(null);
+
+    const pullMessageLogic = (setMessage: (message: string)=>void )=>{
+        messageLogic.current = setMessage;
+    };
+    const message = (message:string)=>{
+        if(messageLogic.current){
+            messageLogic.current(message);
+        }
+    };
+    
 
     const print = ()=>console.log(email,password,rememberMe);
 
@@ -53,11 +66,12 @@ export default function LogIn(){
     const logIn = ()=>{
         const validated = validate();
         if(typeof(validated) === 'string'){
-            console.log(validated)
+            message(validated)
             return ;
         }
 
-        console.log('LOGGED IN');
+        message('LOGGING');
+        openLoader();
     }
 
     return (
@@ -80,6 +94,7 @@ export default function LogIn(){
             <img src={LogInImg} alt="" className="w-[22em] h-[22em] " />
         </div>
         <AppLoader pushLogic={pullLoaderLogic} />
+        <AppMessage pushLogic={pullMessageLogic} />
     </>
     );
 }
