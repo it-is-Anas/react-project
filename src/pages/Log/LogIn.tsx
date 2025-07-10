@@ -73,7 +73,7 @@ export default function LogIn(){
             <InputFiled label='email' placeHolader='Younes@example.com' value={email} onChange={setEmail} />
             <InputFiled label='password' placeHolader='********' type='password' value={password} onChange={setPassword}  />
             <CheckBox label='Remeber me' value={rememberMe} onChange={setRememberMe} />
-            <WidBlueBtn onClick={openLoader} label='Log in' />
+            <WidBlueBtn onClick={logIn} label='Log in' />
             <LogLink label={'Don\'t have account?'} to='/log/sign-up' />
         </div>
         <div className="w-[100%] h-[100%] flex justify-center items-center max-[768px]:hidden">

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 
 interface props {
-    pushLogic?:  ((logic: [() => void, () => void] ) => [() => void, () => void]);
+    pushLogic?:  ((logic: [() => void, () => void] ) => void);
 }
 
 export default function AppLoader({pushLogic}: props){
