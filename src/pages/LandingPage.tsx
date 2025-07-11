@@ -107,8 +107,8 @@ export default function LandingPage(){
                     </div>
                     <div className="w-[100%] h-[100%] flex flex-col justify-center items-center max-[768px]:row-[2/3] max-[768px]:text-center  ">
                         <p className=" w-[15em] text-[1.2em] font-[500]">Send a message :</p>
-                        <InputFiled />
-                        <InputFiled />
+                        <InputFiled label="name" placeHolader="Youseff" />
+                        <InputFiled label="email" placeHolader="Youseff@example.com" />
                         <TextFiled />
                         <WidGreenBtn label="Send" />
                     </div>

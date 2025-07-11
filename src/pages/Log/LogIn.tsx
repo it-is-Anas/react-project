@@ -11,10 +11,13 @@ import axios from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../Store/Slices/Auth';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function LogIn(){
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    
     const [email,setEmail] = useState<string>('nnew@shopy.com');
     const [password,setPassword] = useState<string>('12345678');
     
@@ -61,7 +64,6 @@ export default function LogIn(){
         if(!passwordRegex.test(password)){
             return 'Password should have only letters and numbers';
         }
-        print(); 
         return true;
     };
 
@@ -83,7 +85,8 @@ export default function LogIn(){
             
             if(response.status === 201){
                 message(response.data.message);
-                dispatch(updateData({token: response.data.token,user: response.data.user}))
+                dispatch(updateData({token: response.data.token,user: response.data.user}));
+                navigate('/');
             }
             closeLoader();
         }catch(err){            

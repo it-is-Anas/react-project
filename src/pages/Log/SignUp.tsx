@@ -11,10 +11,13 @@ import axios from 'axios';
 
 import { useDispatch } from 'react-redux';
 import { updateData } from '../../Store/Slices/Auth';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function SignUp(){
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [firstName,setFirstName] = useState<string>('first');
     const [lastName,setLastName] = useState<string>('last');
     const [email,setEmail] = useState<string>('ahmad@sss.sss');
@@ -63,7 +66,6 @@ export default function SignUp(){
         if(!passwordRegex.test(password)){
             return 'Password should have only letters and numbers';
         }
-        print(); 
         return true;
     };
 
@@ -87,7 +89,8 @@ export default function SignUp(){
             
             if(response.status === 201){
                 message(response.data.message);
-                dispatch(updateData({token: response.data.token,user: response.data.user}))
+                dispatch(updateData({token: response.data.token,user: response.data.user}));
+                navigate('/');
             }
             closeLoader();
         }catch(err){            
