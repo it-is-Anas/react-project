@@ -103,7 +103,7 @@ export default function LogIn(){
 
     return (
     <> 
-        <div className="w-[100%] h-[100%] max-[768px]:row-[1/3] flex flex-col justify-center items-center">
+        <div className="w-[100%] h-[100%] max-[768px]:row-[1/3] flex flex-col justify-center items-center pb-[1em]">
             <p className="text-[1.2em] text-[var(--light-blue)] font-[600] my-[.5em]">Create new Account to be part of task it</p>
             <p className="text-[.9em] text-[var(--light-green)] font-[400] opacity-70">Create new Account to be part of task it</p>
             <IconBtn label='Log in with google' />

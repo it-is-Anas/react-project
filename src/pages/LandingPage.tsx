@@ -102,10 +102,10 @@ export default function LandingPage(){
                 <LandingPageHeadLine headLine="Let's talk to us" subHeadLine="Contact us" />
                 
                 <div className="w-[100%]  grid grid-cols-2 max-[768px]:grid-cols-1 max-[768px]:grid-rows-2">
-                    <div className="w-[100%] h-[100%] flex flex-col justify-center items-center  ">
+                    <div className="w-[100%] h-[100%] flex flex-col justify-center items-center max-[768px]:hidden ">
                         <img src={contactMeImg} alt="" className="w-[50%]" />
                     </div>
-                    <div className="w-[100%] h-[100%] flex flex-col justify-center items-center max-[768px]:row-[2/3] max-[768px]:text-center  ">
+                    <div className="w-[100%] h-[100%] flex flex-col justify-center items-center  max-[768px]:text-center  max-[768px]:row-[1/3] ">
                         <p className=" w-[15em] text-[1.2em] font-[500]">Send a message :</p>
                         <InputFiled label="name" placeHolader="Youseff" />
                         <InputFiled label="email" placeHolader="Youseff@example.com" />
