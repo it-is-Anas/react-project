@@ -1,4 +1,6 @@
 /* container */
+w-[100dvw] h-[100dvh]
+
 mx-auto w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full h-[100%]
 
 

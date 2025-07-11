@@ -86,7 +86,7 @@ export default function LogIn(){
             if(response.status === 201){
                 message(response.data.message);
                 dispatch(updateData({token: response.data.token,user: response.data.user}));
-                navigate('/');
+                navigate('/work-space');
             }
             closeLoader();
         }catch(err){            
