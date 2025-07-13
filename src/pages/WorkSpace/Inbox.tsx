@@ -60,7 +60,7 @@ export default function Inbox (){
             </div>
             <div className="bg-[var(--white)] col-[5/13] max-[768px]:h-[calc(100vh-4em)]  max-[768px]:absolute  max-[768px]:top-0  max-[768px]:left-0 max-[768px]:hidden">
                 <ChatHeader />
-                <div className="w-[100%] h-[calc(100%-5em)] bg-[var(--white)] h-[calc(100%-9em)] max-[768px]:h-[calc(100vh-13em)] overflow-y-scroll">
+                <div className="w-[100%] h-[calc(100%-5em)] bg-[var(--white)] h-[calc(100vh-9em)] max-[768px]:h-[calc(100vh-13em)] overflow-y-scroll">
                     <ChatMessage />
                     <ChatMessage send={true} />
                     <ChatMessage />
