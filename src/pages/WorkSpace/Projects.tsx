@@ -3,7 +3,7 @@ import ProjectCard from "../../components/Card/ProjectCard";
 export default function Projects (){
     
     const arr = [];
-    for(let i = 0; i < 100 ; ++i)arr.push(<ProjectCard key={i} />);
+    for(let i = 0; i < 1 ; ++i)arr.push(<ProjectCard key={i} />);
     return (
         <div className="w-[100%] h-[100%] ">
             <p className="font-[600] text-[var(--drak-blue)] py-[.5em] px-[1.5em]">Your Pojects</p>
