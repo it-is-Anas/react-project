@@ -44,7 +44,7 @@ export default function WorkSpace(){
         if(openCreateTeamPopUpFun.current){
             openCreateTeamPopUpFun.current();
         }
-    };
+    }; 
     
 
     const location = useLocation();

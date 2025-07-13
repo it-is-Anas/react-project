@@ -1,8 +1,9 @@
 interface props {
     className?: string,
+    label?:string
 };
-export default function HeaderLogo({className=''}: props){
+export default function HeaderLogo({className='',label='Task Nest'}: props){
     return (
-        <h1 className={"text-[1.5em] font-[700] text-[var(--light-blue)] " + className} >Task Nest</h1>
+        <h1 className={"text-[1.5em] font-[700] text-[var(--light-blue)] " + className} >{ label }</h1>
     );
 }
