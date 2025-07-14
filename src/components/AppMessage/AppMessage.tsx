@@ -5,6 +5,7 @@ interface props {
 };
 
 export default function AppMessage({pushLogic}:props){
+    
     const [opened,setOpened] = useState<boolean>(false);
     const [message,setMessage] = useState<string>('');
     

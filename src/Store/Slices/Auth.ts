@@ -24,6 +24,7 @@ export const counterSlice = createSlice({
             state.updatedAt = user.updatedAt;
             state.email = user.email;
             state.createdAt = user.createdAt;
+            localStorage.setItem('token',state.token);
         }
     },
 });

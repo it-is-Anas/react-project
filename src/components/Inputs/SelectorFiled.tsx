@@ -6,7 +6,7 @@ interface props {
     className?: string,
     inputClassName?: string,
     labelClassName?:string,
-};
+}; 
 
 export default function SelectorFiled({label='',className='',value='',onChange,options=[],inputClassName='',labelClassName=''}:props){
     return (
@@ -16,7 +16,6 @@ export default function SelectorFiled({label='',className='',value='',onChange,o
                     {
                         options.map((ele,index)=><option key={ele + index} value={ele} >{ ele }</option>)
                     }
-                    
             </select>
         </div>
     );

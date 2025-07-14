@@ -3,7 +3,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import IconBtn from "../components/Buttons/IconBtn";
 import HeaderLogo from "../components/Logo/HeaderLogo";
 
-import dashboardIcon from '../assets/SystemeVector/dashboard.png';
 import inboxIcon from '../assets/SystemeVector/inbox.png';
 import projectIcon from '../assets/SystemeVector/projects.png';
 import teamIcon from '../assets/SystemeVector/teams.png';
@@ -11,17 +10,52 @@ import teamIcon from '../assets/SystemeVector/teams.png';
 import mobileMenu from '../assets/SystemeVector/mobileMenu.png';
 
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 
 import WidGreenBtn from "../components/Buttons/WidGreenBtn";
 import CreateProjectPopUp from "../components/PopUp/CreateProject";
 import CreateTeamPopUp from "../components/PopUp/CreateTeam";
+import AppMessage from "../components/AppMessage/AppMessage";
+import AppLoader from "../components/Loader/AppLoader";
+import UpdateProjectPopUp from "../components/PopUp/UpdateProject";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../Store/main";
+import axios from "axios";
+import { removeProject } from "../Store/Slices/Projects";
 
 
 export default function WorkSpace(){
 
     
+    const messageLogic = useRef<((message: string)=> void)>(null);
+    
+    const pullMessageLogic = (setMessage: (message: string)=>void )=>{
+        messageLogic.current = setMessage;
+    };
+    const message = (message:string)=>{
+        if(messageLogic.current){
+            messageLogic.current(message);
+        }
+    };
+
+
+    const loaderLogic = useRef<([() => void, () => void])>(null);
+
+    const pullLoaderLogic = (logic: [() => void, () => void])=>{
+        loaderLogic.current = logic;
+    };
+    const openLoader = ()=>{
+        if(loaderLogic.current){
+            loaderLogic.current[0]();
+        }
+    };
+    const closeLoader = ()=>{
+        if(loaderLogic.current){
+            loaderLogic.current[1]();
+        }
+    };
+
 
     const [openMobileMenu,setOpenMobileMenu] = useState<boolean>(false);
     const openCls = openMobileMenu?'!translate-x-[0]':null;
@@ -35,6 +69,10 @@ export default function WorkSpace(){
             openCreateProjectPopUpFun.current();
         }
     };
+    
+
+
+
 
     const openCreateTeamPopUpFun = useRef<(()=>void)|null>(null);
     const setCreateTeamOpenPopUp = (func: ()=>void )=>{
@@ -48,7 +86,7 @@ export default function WorkSpace(){
     
 
     const location = useLocation();
-    let createBtn:React.ReactNode  = null;
+    let createBtn:React.ReactNode  = <WidGreenBtn click={openCreateProjectPopUp} label="+ Add New Project" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  />;
     if(location.pathname === '/work-space/projects'){
         createBtn = <WidGreenBtn click={openCreateProjectPopUp} label="+ Add New Project" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  />;
     }
@@ -56,15 +94,43 @@ export default function WorkSpace(){
         createBtn = <WidGreenBtn click={openCreateTeamPopUp} label="+ Add New Team" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px] '  />;
     }
 
+    const dispatch = useDispatch();
+    const removeDeletedProject = ()=> dispatch(removeProject());
+    const deleteId = useSelector(((state:RootState) => state.project.deletedProjectId));
+    
+    useEffect(()=>{
+        if(deleteId !== -1){
+            const backUrl = import.meta.env.VITE_API_URL+'/project/'+deleteId;
+            const createProject = async()=>{
+                openLoader();
+                const token = localStorage.getItem('token');
+                try{
+                    const response = await axios.delete(backUrl,{
+                        headers:{
+                            Authorization: 'Bearer '+ token,
+                        }
+                    });
+                    if(response.status === 200){
+                        message('Project Updated Succesfully!');
+                        removeDeletedProject();
+                    }
+                    closeLoader();
+                }catch(err){
+                    console.log(err);
+                    closeLoader();
+                };
+            };
+            createProject();
+            // setSaveProject(false);
+        }
+    },[deleteId]);
+
     return (
         <>
         <div className="w-[100dvw] h-[100dvh] max-w-[100dvw] max-h-[100dvh] grid grid-cols-12  max-[768px]:hidden">
             <aside className="col-[1/4] bg-[var(--gray)] grid grid-rows-[repeat(auto-fill,3.25em)] items-center p-[1em]   ">
                 <HeaderLogo />
                 { createBtn }
-                {/* <WidGreenBtn click={openCreateProjectPopUp} label="+ Add New Project" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  />  */}
-                {/* <WidGreenBtn click={openCreateTeamPopUp} label="+ Add New Team" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  />  */}
-                <IconBtn isLink={true} to='/work-space/dashboard' label="Dashboard" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={dashboardIcon} />
                 <IconBtn isLink={true} to='/work-space/projects' label="Projects" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={projectIcon} />
                 <IconBtn isLink={true} to='/work-space/teams' label="Teams" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={teamIcon} />
                 <IconBtn isLink={true} to='/work-space/inbox' label="Inbox" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={inboxIcon} />
@@ -86,9 +152,6 @@ export default function WorkSpace(){
                     <HeaderLogo />
                     { createBtn }
                     <span onClick={()=>setOpenMobileMenu(false)} >
-                        <IconBtn isLink={true} to='/work-space/dashboard' label="Dashboard" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px]" imgClassName='w-[1.3em] ml-[0]' icon={dashboardIcon} />
-                    </span>
-                    <span onClick={()=>setOpenMobileMenu(false)} >
                         <IconBtn isLink={true} to='/work-space/projects' label="Projects" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px]" imgClassName='w-[1.3em] ml-[0]' icon={projectIcon} />
                     </span>
                     <span onClick={()=>setOpenMobileMenu(false)} >
@@ -99,8 +162,11 @@ export default function WorkSpace(){
                     </span>
                 </aside>
             </div>
-                    <CreateProjectPopUp pushOpen={setCreateProjectOpenPopUp} />
-                    <CreateTeamPopUp pushOpen={setCreateTeamOpenPopUp} />
+            <AppMessage pushLogic={pullMessageLogic} />
+            <AppLoader pushLogic={pullLoaderLogic} />
+            <CreateProjectPopUp message={message} openLoader={openLoader} closeLoader={closeLoader} pushOpen={setCreateProjectOpenPopUp} />
+            <UpdateProjectPopUp  message={message} openLoader={openLoader} closeLoader={closeLoader}  />
+            <CreateTeamPopUp pushOpen={setCreateTeamOpenPopUp} />
         </>
     );
 }
