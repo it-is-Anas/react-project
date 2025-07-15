@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import ProjectCard from "../../components/Card/ProjectCard";
-import axios from "axios";
+import axios  from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { pullProjects  } from "../../Store/Slices/Projects";
 import type { RootState } from "../../Store/main";
-
+import type { Project } from '../../Types';
 
 export default function Projects (){
 
@@ -31,7 +31,7 @@ export default function Projects (){
                     if(response.status === 200){
                         setProjects(response.data);
                     }
-                }catch(err){
+                }catch(err: unknown){
                     console.log(err);
                 }
             };
@@ -47,7 +47,7 @@ export default function Projects (){
                 <p className="font-[600] text-[var(--drak-blue)] py-[.5em] px-[1.5em]">Your Pojects</p>
                 <div className="w-[100%] max-h-[calc(100%-2.5em)] justify-items-center  grid grid-cols-[repeat(auto-fill,minmax(16em,1fr))] gap-4 p-4 overflow-y-scroll"  >
                     {
-                        projects.map((project)=><ProjectCard key={project.id} id={project.id} name={project.name} project_status={project.project_status} createdAt={project.createdAt} updatedAt={project.updatedAt} userFirstName={project.owner.firstName} userLastName={project.owner.lastName} />)
+                        projects.map((project:Project)=><ProjectCard key={project.id} id={project.id} name={project.name} project_status={project.project_status} createdAt={project.createdAt} updatedAt={project.updatedAt} userFirstName={project.owner?project.owner.firstName:''} userLastName={project.owner?project.owner.lastName:''} />)
                     }
                 </div>
             </div>

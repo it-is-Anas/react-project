@@ -6,13 +6,15 @@ export default function TeamCard(){
 
 
 
-    const [openMenu,setOpenMenu] = useState<boolean>(false);
+    const [openMenu, setOpenMenu] = useState<boolean>(false);
+    const contextMenu = useRef<HTMLDivElement | null>(null);
 
-    const contextMenu = useRef(null);
-
-    const clickOutSide = (event)=>{
-        const target = event.target;
-        if(contextMenu.current && ! (contextMenu.current.contains(target) || contextMenu.current === target) ){
+    const clickOutSide = (event: MouseEvent) => {
+    const target = event.target as Node;
+        if (
+            contextMenu.current &&
+            !(contextMenu.current.contains(target) || contextMenu.current === target)
+        ) {
             setOpenMenu(false);
         }
     };

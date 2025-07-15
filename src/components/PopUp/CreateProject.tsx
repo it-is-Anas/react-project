@@ -7,6 +7,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createProject } from "../../Store/Slices/Projects";
 
+import type { Project } from '../../Types';
 
 interface props {
     pushOpen?: ((openPopUp: ()=>void)=>void) | null,
@@ -31,7 +32,6 @@ export default function CreateProjectPopUp({pushOpen = null ,message=()=>console
     },[pushOpen]);
 
     const [projectName,setProjectName] = useState<string>('');    
-    // const [projectDesc,setProjectDesc] = useState<string>('');
 
     const [saveProject,setSaveProject] = useState<boolean>(false);
     const save = ()=> {
@@ -46,9 +46,10 @@ export default function CreateProjectPopUp({pushOpen = null ,message=()=>console
     const dispatch = useDispatch();
 
 
-    const addNewProject = (project)=>{
+    const addNewProject = (project: Project) : void => {
         dispatch(createProject(project));
     };
+
 
     useEffect(()=>{
         if(saveProject){
@@ -90,8 +91,6 @@ export default function CreateProjectPopUp({pushOpen = null ,message=()=>console
                 <WorkSpacePopUp closePopUp={closePopUp} >
                     <p className="p-[1em] font-[500] text-[var(--black)]">Create Project</p>
                     <InputFiled value={projectName} onChange={setProjectName} label="Project Name" placeHolader="new project" className="!items-center" labelClassName="mr-[auto] ml-[3em]" inputClassName="bg-[var(--white)] w-[80%]" />
-                    {/* <TextFiled value={projectDesc} onChange={setProjectDesc} label="Project Description" placeHolader="new project" className="!items-center mb-[1em]" labelClassName="mr-[auto] ml-[3em] !font-[600]" inputClassName="bg-[var(--white)] w-[80%] m-h-[3em]" /> */}
-                    {/* I have to added in back end and update all routes  */}
                     <div className="w-[100%] h-[2em] my-[1em] mb-[1em] pr-[2.5em] flex justify-end items-center max-[768px]:justify-center max-[768px]:pr-[0]">
                         <BlueBtn click={cancelAction} label="Cancel" className="!m-[0] !mx-[.4em] py-[0] border border-[3px] !text-[var(--light-blue)] border-[var(--light-blue)] !bg-[var(--white)]" />
                         <BlueBtn click= {save} label="Create" className="!m-[0] py-[0] border border-[3px] border-[var(--light-blue)]" />

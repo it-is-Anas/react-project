@@ -1,17 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const counterSlice = createSlice({
-    name: 'projects',
-    initialState: {
+import type { Project } from '../../Types';
+
+
+interface initialStateType {
+    projects: Project[],
+    updatedProjectId: number,
+    deletedProjectId: number,
+} ;
+
+const initialState: initialStateType ={
         projects: [],
         updatedProjectId: -1,
         deletedProjectId: -1,
-    },
+    };
+export const counterSlice = createSlice({
+    name: 'projects',
+    initialState,
     reducers: {
         pullProjects(state,context){
             state.projects = context.payload;
         },createProject(state,context){
-            state.projects.push(context.payload);
+            const project = context.payload ;
+            state.projects.push(project);
         },setUpdatePorjectId(state,context){
             state.updatedProjectId = context.payload;
         },updateExisitProject(state,context){

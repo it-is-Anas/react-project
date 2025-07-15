@@ -9,8 +9,10 @@ import { setUpdatePorjectId } from "../../Store/Slices/Projects";
 import axios from "axios";
 import { updateExisitProject } from '../../Store/Slices/Projects';
 
+import type { Project } from '../../Types';
+
 interface props {
-    pushOpen?: ((openPopUp: (projectId:number,projectName: string,projectStatus: string)=>void)=>void) | null,
+    pushOpen?: ((openPopUp: (projectName: string,projectStatus: string)=>void)=>void) | null,
     message?:(message:string)=>void,
     openLoader?:()=>void,
     closeLoader?:()=>void,    
@@ -45,7 +47,7 @@ export default function UpdateProjectPopUp({pushOpen = null ,message=()=>console
 
     const [opened,setOpened] = useState<boolean>(false);
     
-    const openPopUp = (projectId:number,projectName: string,projectStatus: string)=> {
+    const openPopUp = (projectName: string,projectStatus: string)=> {
         setProjectName(projectName);
         setStatus(projectStatus);
         setOpened(true);
@@ -66,12 +68,12 @@ export default function UpdateProjectPopUp({pushOpen = null ,message=()=>console
     useEffect(()=>{
         const project = projects.filter(proj=>proj.id===projectId);
         if(projectId && project.length){
-            openPopUp(projectId,project[0].name,project[0].project_status);
+            openPopUp(project[0].name,project[0].project_status);
         }
     },[projectId]);
 
 
-    const updateProjects = (project)=>{
+    const updateProjects = (project:Project)=>{
         dispatch(updateExisitProject(project));
     };
 

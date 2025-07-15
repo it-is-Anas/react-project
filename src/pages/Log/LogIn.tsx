@@ -9,7 +9,7 @@ import AppMessage from '../../components/AppMessage/AppMessage';
 import axios from 'axios';
 
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateData } from '../../Store/Slices/Auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -89,7 +89,7 @@ export default function LogIn(){
                 navigate('/work-space');
             }
             closeLoader();
-        }catch(err){            
+        }catch(err: unknown){            
             closeLoader();
             if(err.status === 422){
                 message('Email and Password not match !');

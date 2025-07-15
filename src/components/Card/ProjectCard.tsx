@@ -9,29 +9,32 @@ interface props {
     name: string,
     project_status: string,
     createdAt: string,
-    updatedAt: string
+    updatedAt?: string
     userFirstName: string,
     userLastName: string,
 };
 
 
-export default function ProjectCard({id,name,project_status,createdAt,updatedAt,userFirstName,userLastName}:props){
-    
+export default function ProjectCard({id,name,project_status,createdAt,userFirstName,userLastName}:props){
+
     const dispatch = useDispatch();
     const setUpdatedId = ()=> dispatch(setUpdatePorjectId(id));
 
 
 
-    const [openMenu,setOpenMenu] = useState<boolean>(false);
+    const [openMenu, setOpenMenu] = useState<boolean>(false);
+    const contextMenu = useRef<HTMLDivElement | null>(null);
 
-    const contextMenu = useRef(null);
-
-    const clickOutSide = (event: any)=>{
-        const target = event.target;
-        if(contextMenu.current && ! (contextMenu.current.contains(target) || contextMenu.current === target) ){
+    const clickOutSide = (event: MouseEvent) => {
+    const target = event.target as Node;
+        if (
+            contextMenu.current &&
+            !(contextMenu.current.contains(target) || contextMenu.current === target)
+        ) {
             setOpenMenu(false);
         }
     };
+
 
     useEffect(()=>{
         document.addEventListener('click',clickOutSide);
