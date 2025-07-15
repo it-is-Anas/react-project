@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { pullProjects  } from "../../Store/Slices/Projects";
 import type { RootState } from "../../Store/main";
 import type { Project } from '../../Types';
+import { setLoader } from "../../Store/Slices/System";
 
 export default function Projects (){
 
@@ -23,6 +24,7 @@ export default function Projects (){
             const token = localStorage.getItem('token');
             const pullProject = async ()=>{
                 try{
+                    dispatch(setLoader(true));
                     const response = await axios.get(backUrl,{
                         headers:{
                             Authorization: 'Bearer '+ token ,
@@ -31,7 +33,9 @@ export default function Projects (){
                     if(response.status === 200){
                         setProjects(response.data);
                     }
+                    dispatch(setLoader(false));
                 }catch(err: unknown){
+                    dispatch(setLoader(false));
                     console.log(err);
                 }
             };

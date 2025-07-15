@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { User } from '../../Types';
-
 
 interface initialStateType {
     loader: boolean,

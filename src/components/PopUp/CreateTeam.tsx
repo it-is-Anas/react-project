@@ -7,7 +7,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../Store/main";
 import { pullProjects } from "../../Store/Slices/Projects";
-import { addTeam } from "../../Store/Slices/Teams";
+import { addTeam, setUpdatedId, updateExisitTeam } from "../../Store/Slices/Teams";
 const BACK_URL = import.meta.env.VITE_API_URL;
 
 
@@ -22,12 +22,16 @@ interface props {
 export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log('default message aciton'), openLoader=()=>console.log('default open loader'),closeLoader=()=>console.log('default close loader') }:props){
     const token = localStorage.getItem('token');    
     const dispatch = useDispatch();
+
+    
+
     const projectToSelect = useSelector((state:RootState)=> state.project.projects);
+    
 
     const [opened,setOpened] = useState<boolean>(false);
     
     const openPopUp = ()=> setOpened(true);
-    const closePopUp = ()=> setOpened(false);
+    const closePopUp = ()=> {setOpened(false);dispatch(setUpdatedId(-1));};
 
     useEffect(()=>{
         if(pushOpen){
@@ -51,6 +55,7 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
     useEffect(()=>{
         const fetchProjects = async ()=>{
             try{
+                openLoader();
                 const response = await axios.get(BACK_URL+'/project',{
                     headers:{
                         Authorization: 'Bearer '+ token,
@@ -59,7 +64,9 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
                 if(response.status){
                     dispatch(pullProjects(response.data));
                 }
+                closeLoader();
             }catch(err:unknown){
+                closeLoader();
                 console.log(err);
             };
         };
@@ -76,10 +83,11 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
 
     const [save,setSave] = useState<boolean>(false);
     useEffect(()=>{
-        if(save && projectToSelect.length ){
+        if(save && projectToSelect.length && updateTeamId === -1){
             const projectId = projectToSelect.filter(ele=> ele.name === selectedProjectName)[0].id;
             const createTeam = async ()=>{
                 try{
+                    openLoader();
                     const response = await axios.post(BACK_URL+'/team',{
                         name: teamProject,
                         project_id: projectId
@@ -91,7 +99,34 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
                     if(response.status === 201){
                         dispatch(addTeam(response.data));
                     }
+                    closeLoader();
                 }catch(err:unknown){
+                    closeLoader();
+                    console.log(err);
+                };
+            };
+            createTeam();
+            setSave(false);
+            cancelAction();
+        }else if(save && projectToSelect.length && updateTeamId !== -1){
+            const projectId = projectToSelect.filter(ele=> ele.name === selectedProjectName)[0].id;
+            const createTeam = async ()=>{
+                try{
+                    openLoader();
+                    const response = await axios.patch(BACK_URL+'/team/'+updateTeamId,{
+                        name: teamProject,
+                        project_id: projectId
+                    },{
+                        headers:{
+                            Authorization: 'Bearer '+ token,
+                        }
+                    });
+                    if(response.status === 200){
+                        dispatch(updateExisitTeam(response.data));
+                    }
+                    closeLoader();
+                }catch(err:unknown){
+                    closeLoader();
                     console.log(err);
                 };
             };
@@ -101,6 +136,19 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
         }
     },[save]);
 
+
+    const teams = useSelector((state:RootState)=>state.team.teams);
+    const updateTeamId = useSelector((state:RootState)=>state.team.updatedTeamId);
+    
+    useEffect(()=>{
+        if(updateTeamId !== -1){
+            const updatedTeam = (teams.filter(element=>element.id === updateTeamId))[0];
+            setTeamProject(updatedTeam.name);
+            setSelectedProjectName(updatedTeam.project.name);
+            openPopUp();
+            //  afer update or close pop up
+        }
+    },[updateTeamId]);
     
 
     if(opened)
@@ -112,7 +160,7 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
                     <SelectorFiled  key={'selectProject'} value={selectedProjectName} onChange={setSelectedProjectName} label="Project name"  options={projectOptions} labelClassName="mr-[auto] ml-[3em]" />
                     <div className="w-[100%] h-[2em] my-[1em] mb-[1em] pr-[2.5em] flex justify-end items-center max-[768px]:justify-center max-[768px]:pr-[0]">
                         <BlueBtn label="Cancel" className="!m-[0] !mx-[.4em] py-[0] border border-[3px] !text-[var(--light-blue)] border-[var(--light-blue)] !bg-[var(--white)]" />
-                        <BlueBtn click={()=>setSave(true)} label="Create" className="!m-[0] py-[0] border border-[3px] border-[var(--light-blue)]" />
+                        <BlueBtn click={()=>setSave(true)} label={updateTeamId!==-1?"Save":"Create"} className="!m-[0] py-[0] border border-[3px] border-[var(--light-blue)]" />
                     </div>
                 </WorkSpacePopUp>
             </>

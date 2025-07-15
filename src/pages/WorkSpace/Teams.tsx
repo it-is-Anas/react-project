@@ -39,7 +39,7 @@ export default function Teams (){
         <h1 className="font-[600] text-[var(--drak-blue)] py-[.5em] px-[1.5em]" >Teams</h1>
         <div className="w-[100%] max-h-[calc(100%-2.5em)] justify-items-center  grid grid-cols-[repeat(auto-fill,minmax(16em,1fr))] gap-4 p-4 overflow-y-scroll"  >
             {
-                teams.map(team =><TeamCard key={team.id} id={team.id} name={team.name} createdAt={team.createdAt} updatedAt={team.updatedAt} userFirstName={team.leader?team.leader.firstName:''} userLastName={team.leader?team.leader.lastName:''} />)
+                teams.map(team =><TeamCard key={team.id} id={team.id} name={team.name} project={team.project.name} createdAt={team.createdAt} updatedAt={team.updatedAt} userFirstName={team.leader?team.leader.firstName:''} userLastName={team.leader?team.leader.lastName:''} />)
             }
         </div>
     </>
