@@ -26,11 +26,15 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
     
 
     const projectToSelect = useSelector((state:RootState)=> state.project.projects);
-    
+    const updateTeamId = useSelector((state:RootState)=>state.team.updatedTeamId);
+
 
     const [opened,setOpened] = useState<boolean>(false);
-    
-    const openPopUp = ()=> setOpened(true);
+    const [projectOptions,setProjectOptions] = useState<string[]>([]);
+    const [selectedProjectName,setSelectedProjectName] = useState<string>('');
+    const [teamProject,setTeamProject] = useState<string>('');    
+
+    const openPopUp = ()=> {setOpened(true);if(updateTeamId === -1){setTeamProject('');setSelectedProjectName('');}};
     const closePopUp = ()=> {setOpened(false);dispatch(setUpdatedId(-1));};
 
     useEffect(()=>{
@@ -39,11 +43,9 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
         }
     },[pushOpen]);
 
-    const [teamProject,setTeamProject] = useState<string>('');    
+    
 
-    const [projectOptions,setProjectOptions] = useState<string[]>([]);
-    const [selectedProjectName,setSelectedProjectName] = useState<string>('');
-
+    
     useEffect(()=>{
         if(projectToSelect.length){
             const arr: string[] = projectToSelect.map(ele=>ele.name);
@@ -138,7 +140,6 @@ export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log
 
 
     const teams = useSelector((state:RootState)=>state.team.teams);
-    const updateTeamId = useSelector((state:RootState)=>state.team.updatedTeamId);
     
     useEffect(()=>{
         if(updateTeamId !== -1){
