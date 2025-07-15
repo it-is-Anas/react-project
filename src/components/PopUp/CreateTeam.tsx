@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react";
 import BlueBtn from "../Buttons/BlueBtn";
 import InputFiled from "../Inputs/InputFiled";
-import TextFiled from "../Inputs/TextField";
 import WorkSpacePopUp from "../../Shells/PopUp/WorkSpacePopUp";
 import SelectorFiled from "../Inputs/SelectorFiled";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../Store/main";
+import { pullProjects } from "../../Store/Slices/Projects";
+import { addTeam } from "../../Store/Slices/Teams";
+const BACK_URL = import.meta.env.VITE_API_URL;
 
 
 interface props {
     pushOpen?: ((openPopUp: ()=>void)=>void) | null,
+    message?:(message:string)=>void,
+    openLoader?:()=>void,
+    closeLoader?:()=>void,    
 };
 
 
-export default function CreateTeamPopUp({pushOpen = null }:props){
+export default function CreateTeamPopUp({pushOpen = null,message=()=>console.log('default message aciton'), openLoader=()=>console.log('default open loader'),closeLoader=()=>console.log('default close loader') }:props){
+    const token = localStorage.getItem('token');    
+    const dispatch = useDispatch();
+    const projectToSelect = useSelector((state:RootState)=> state.project.projects);
+
     const [opened,setOpened] = useState<boolean>(false);
     
     const openPopUp = ()=> setOpened(true);
@@ -24,28 +36,71 @@ export default function CreateTeamPopUp({pushOpen = null }:props){
     },[pushOpen]);
 
     const [teamProject,setTeamProject] = useState<string>('');    
-    const [teamDesc,setTeamDesc] = useState<string>('');
 
-
-    const projectOptions:string[] = ['frstProject','secProject','thirdProj'];
+    const [projectOptions,setProjectOptions] = useState<string[]>([]);
     const [selectedProjectName,setSelectedProjectName] = useState<string>('');
-    // const usersOptions:string[] = ['Anas','Omar','Osama'];
-    const [usersOptions,setUsersOptions] = useState<string[]>(['Anas','Omar','Osama']);
-    const [selectedUsers,setSelectedUsers] = useState<string[]>([]);
-    const updateSelectedUsers = (user:string)=>{
-        setSelectedUsers(users=>[...users,user]);
-        setUsersOptions(
-            users=>{ 
-                if(users.length === 1){
-                    return [];
+
+    useEffect(()=>{
+        if(projectToSelect.length){
+            const arr: string[] = projectToSelect.map(ele=>ele.name);
+            setProjectOptions(arr);
+        }
+    },[projectToSelect]);
+
+
+    useEffect(()=>{
+        const fetchProjects = async ()=>{
+            try{
+                const response = await axios.get(BACK_URL+'/project',{
+                    headers:{
+                        Authorization: 'Bearer '+ token,
+                    }
+                });
+                if(response.status){
+                    dispatch(pullProjects(response.data));
                 }
-                return users.filter(u=>u!=user)
-            })
+            }catch(err:unknown){
+                console.log(err);
+            };
         };
-    const removeUser = (user:string) => {
-        setSelectedUsers(users => users.filter(ele=>ele!==user));
-        setUsersOptions(users=>[...users,user]);
+        if(!projectToSelect.length)
+            fetchProjects();
+    },[]);
+
+
+    const cancelAction = ()=>{
+        setTeamProject('');
+        setSelectedProjectName('');
+        closePopUp();
     };
+
+    const [save,setSave] = useState<boolean>(false);
+    useEffect(()=>{
+        if(save && projectToSelect.length ){
+            const projectId = projectToSelect.filter(ele=> ele.name === selectedProjectName)[0].id;
+            const createTeam = async ()=>{
+                try{
+                    const response = await axios.post(BACK_URL+'/team',{
+                        name: teamProject,
+                        project_id: projectId
+                    },{
+                        headers:{
+                            Authorization: 'Bearer '+ token,
+                        }
+                    });
+                    if(response.status === 201){
+                        dispatch(addTeam(response.data));
+                    }
+                }catch(err:unknown){
+                    console.log(err);
+                };
+            };
+            createTeam();
+            setSave(false);
+            cancelAction();
+        }
+    },[save]);
+
     
 
     if(opened)
@@ -55,17 +110,9 @@ export default function CreateTeamPopUp({pushOpen = null }:props){
                     <p className="p-[1em] font-[500] text-[var(--black)]">Create Team</p>
                     <InputFiled value={teamProject} onChange={setTeamProject} label="Team Name" placeHolader="new project" className="!items-center" labelClassName="mr-[auto] ml-[3em]" inputClassName="bg-[var(--white)] w-[80%]" />
                     <SelectorFiled  key={'selectProject'} value={selectedProjectName} onChange={setSelectedProjectName} label="Project name"  options={projectOptions} labelClassName="mr-[auto] ml-[3em]" />
-                    {   
-                        !!selectedUsers.length &&
-                        <div className=" w-[100%] p-[.5em] px-[3em] flex justify-start itemes-center"> 
-                            {selectedUsers.map((ele,index)=><p onClick={()=>removeUser(ele)} key={'chois'+index} className="p-[0.3em] mx-[5px] bg-[var(--light-green)] font-medium text-[0.8em] rounded-[4px] text-[var(--white)] cursor-pointer flex ">{ele } <div className=" w-[1em] flex justify-center items-center " ><span className="rotate-[-45deg] font-bold" >+</span></div></p>)}
-                        </div>
-                    }
-                    <SelectorFiled  key={'selectUser'}  onChange={updateSelectedUsers} label="Team's users"  options={usersOptions} labelClassName="mr-[auto] ml-[3em]" />
-                    <TextFiled value={teamDesc} onChange={setTeamDesc} label="Team Description" placeHolader="new project" className="!items-center mb-[1em]" labelClassName="mr-[auto] ml-[3em] !font-[600]" inputClassName="bg-[var(--white)] w-[80%] m-h-[3em]" />
                     <div className="w-[100%] h-[2em] my-[1em] mb-[1em] pr-[2.5em] flex justify-end items-center max-[768px]:justify-center max-[768px]:pr-[0]">
                         <BlueBtn label="Cancel" className="!m-[0] !mx-[.4em] py-[0] border border-[3px] !text-[var(--light-blue)] border-[var(--light-blue)] !bg-[var(--white)]" />
-                        <BlueBtn label="Create" className="!m-[0] py-[0] border border-[3px] border-[var(--light-blue)]" />
+                        <BlueBtn click={()=>setSave(true)} label="Create" className="!m-[0] py-[0] border border-[3px] border-[var(--light-blue)]" />
                     </div>
                 </WorkSpacePopUp>
             </>

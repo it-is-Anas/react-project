@@ -166,7 +166,7 @@ export default function WorkSpace(){
             <AppLoader pushLogic={pullLoaderLogic} />
             <CreateProjectPopUp message={message} openLoader={openLoader} closeLoader={closeLoader} pushOpen={setCreateProjectOpenPopUp} />
             <UpdateProjectPopUp  message={message} openLoader={openLoader} closeLoader={closeLoader}  />
-            <CreateTeamPopUp pushOpen={setCreateTeamOpenPopUp} />
+            <CreateTeamPopUp message={message} openLoader={openLoader} closeLoader={closeLoader} pushOpen={setCreateTeamOpenPopUp} />
         </>
     );
 }
