@@ -3,6 +3,7 @@ import authReducer from './Slices/Auth';
 import projectReducer from './Slices/Projects';
 import teamReducer from './Slices/Teams';
 import usersReducer from './Slices/Users';
+import systemReducer from './Slices/System';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     project: projectReducer,
     team: teamReducer,
     users: usersReducer,
+    system: systemReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

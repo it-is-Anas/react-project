@@ -23,37 +23,22 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../Store/main";
 import axios from "axios";
 import { removeProject } from "../Store/Slices/Projects";
+import { setMessage , setLoader } from "../Store/Slices/System";
 
 
 export default function WorkSpace(){
-
     
-    const messageLogic = useRef<((message: string)=> void)>(null);
-    
-    const pullMessageLogic = (setMessage: (message: string)=>void )=>{
-        messageLogic.current = setMessage;
-    };
+    const dispatch = useDispatch();
     const message = (message:string)=>{
-        if(messageLogic.current){
-            messageLogic.current(message);
-        }
+        dispatch(setMessage(message));
     };
 
 
-    const loaderLogic = useRef<([() => void, () => void])>(null);
-
-    const pullLoaderLogic = (logic: [() => void, () => void])=>{
-        loaderLogic.current = logic;
-    };
     const openLoader = ()=>{
-        if(loaderLogic.current){
-            loaderLogic.current[0]();
-        }
+        dispatch(setLoader(true));
     };
     const closeLoader = ()=>{
-        if(loaderLogic.current){
-            loaderLogic.current[1]();
-        }
+        dispatch(setLoader(false));
     };
 
 
@@ -94,7 +79,6 @@ export default function WorkSpace(){
         createBtn = <WidGreenBtn click={openCreateTeamPopUp} label="+ Add New Team" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px] '  />;
     }
 
-    const dispatch = useDispatch();
     const removeDeletedProject = ()=> dispatch(removeProject());
     const deleteId = useSelector(((state:RootState) => state.project.deletedProjectId));
     
@@ -162,8 +146,8 @@ export default function WorkSpace(){
                     </span>
                 </aside>
             </div>
-            <AppMessage pushLogic={pullMessageLogic} />
-            <AppLoader pushLogic={pullLoaderLogic} />
+            <AppMessage />
+            <AppLoader  />
             <CreateProjectPopUp message={message} openLoader={openLoader} closeLoader={closeLoader} pushOpen={setCreateProjectOpenPopUp} />
             <UpdateProjectPopUp  message={message} openLoader={openLoader} closeLoader={closeLoader}  />
             <CreateTeamPopUp message={message} openLoader={openLoader} closeLoader={closeLoader} pushOpen={setCreateTeamOpenPopUp} />
