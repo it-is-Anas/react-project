@@ -3,7 +3,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import IconBtn from "../components/Buttons/IconBtn";
 import HeaderLogo from "../components/Logo/HeaderLogo";
 
-import inboxIcon from '../assets/SystemeVector/inbox.png';
 import projectIcon from '../assets/SystemeVector/projects.png';
 import teamIcon from '../assets/SystemeVector/teams.png';
 
@@ -117,7 +116,6 @@ export default function WorkSpace(){
                 { createBtn }
                 <IconBtn isLink={true} to='/work-space/projects' label="Projects" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={projectIcon} />
                 <IconBtn isLink={true} to='/work-space/teams' label="Teams" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={teamIcon} />
-                <IconBtn isLink={true} to='/work-space/inbox' label="Inbox" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={inboxIcon} />
             </aside>
             <div className="col-[4/13] h-[100dvh] ">
                 <Outlet />
@@ -140,9 +138,6 @@ export default function WorkSpace(){
                     </span>
                     <span onClick={()=>setOpenMobileMenu(false)} >
                         <IconBtn isLink={true} to='/work-space/teams' label="Teams" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px]" imgClassName='w-[1.3em] ml-[0]' icon={teamIcon} />
-                    </span>
-                    <span onClick={()=>setOpenMobileMenu(false)}  >
-                        <IconBtn isLink={true} to='/work-space/inbox' label="Inbox" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px]" imgClassName='w-[1.3em] ml-[0]' icon={inboxIcon} />
                     </span>
                 </aside>
             </div>
