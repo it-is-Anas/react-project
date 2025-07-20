@@ -25,6 +25,7 @@ import { removeProject } from "../Store/Slices/Projects";
 import { setMessage , setLoader } from "../Store/Slices/System";
 import CreateTaskPopUp from "../components/PopUp/CreateTask";
 import { setTaskPopUp } from "../Store/Slices/Task";
+import ChangeTaskStatePopUp from "../components/PopUp/ChangeStatusTask";
 
 
 export default function WorkSpace(){
@@ -152,6 +153,7 @@ export default function WorkSpace(){
             <UpdateProjectPopUp  message={message} openLoader={openLoader} closeLoader={closeLoader}  />
             <CreateTeamPopUp message={message} openLoader={openLoader} closeLoader={closeLoader} pushOpen={setCreateTeamOpenPopUp} />
             <CreateTaskPopUp />
+            <ChangeTaskStatePopUp />
         </>
     );
 }

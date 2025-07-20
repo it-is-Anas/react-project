@@ -8,12 +8,13 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../Store/main";
 import { setUsers } from "../../Store/Slices/Users";
-import { addNewTask, setTaskPopUp } from "../../Store/Slices/Task";
+import { addNewTask, setStateTask, setTaskPopUp, updateExsist } from "../../Store/Slices/Task";
 import { setLoader, setMessage } from "../../Store/Slices/System";
+import type { Task  }from '../../Types';
 const BACK_URL = import.meta.env.VITE_API_URL;
 
 
-export default function CreateTaskPopUp(){
+export default function ChangeTaskStatePopUp(){
 
     const dispatch = useDispatch();
     const openLoader = ()=>dispatch(setLoader(true));
@@ -23,14 +24,12 @@ export default function CreateTaskPopUp(){
         dispatch(setMessage(message));
     };
 
-
-    const opened = useSelector((state:RootState)=> state.task.taskPopUp); 
-    const setOpened = (bool:boolean)=> dispatch(setTaskPopUp(bool));
+    const taskId =  useSelector((state:RootState)=> state.task.stateTask);
+    const opened = taskId !== -1; 
+    const setOpened = (id:number)=> dispatch(setStateTask(id));
     
 
     const [task,setTask] = useState<string>('');
-
-
     const [assignedTo ,setAssignedTo] = useState<string|number>(-1);
     const users = useSelector((state:RootState)=>state.users.users);
     const [projectUsers,setProjectUsers] =  useState<{label:string,id:number}[]> ([]);
@@ -49,31 +48,35 @@ export default function CreateTaskPopUp(){
     const projectId = useParams().id;
 
     const closeAction = ()=>{
-        setOpened(false);
+        setOpened(-1);
         setPriority(0);
         setAssignedTo(-1);
         setTask('');
     };
+
+    const tasks = useSelector((state:RootState)=>state.task.tasks);
+    let editTask:Task ;
+    if(taskId !==-1){
+        const temp =  tasks.filter(task => task.id === taskId);
+        editTask = temp[0];
+    }
+
     const [save,setSave] = useState<boolean>(false);
     useEffect(()=>{
         if(save){
             const createTask = async ()=>{
                 openLoader();
                 try{
-                    const reponse = await axios.post(BACK_URL+'/task',{
-                        task: task,
-                        project_id: +projectId,
-                        assigned_to: +assignedTo,
+                    const reponse = await axios.patch(BACK_URL+'/task/'+editTask.id,{
                         priority: priorityOptions[+priority]['label']
                     },{
                         headers:{
                             Authorization: 'Bearer '+localStorage.getItem('token') 
                         }
                     });
-                    if(reponse.status === 201){
-                        dispatch(addNewTask(reponse.data));
+                    if(reponse.status === 200){
+                        dispatch(updateExsist(reponse.data));
                     }
-                        console.log(reponse);
                     }catch(err){
                         if(err.status === 403){
                             msg('access deny, you don\'t have the permesion to this project')
@@ -89,37 +92,15 @@ export default function CreateTaskPopUp(){
     },[save]);
 
 
-    useEffect(()=>{
-        const pullUsers = async ()=>{
-            openLoader();
-            try{
-                const response = await axios.get(BACK_URL+'/user',{
-                    headers:{
-                        Authorization: 'Bearer '+localStorage.getItem('token'),
-                    }
-                });
-                dispatch(setUsers(response.data.users));
-            }catch(err){
-                console.log(err);
-            }finally{
-                closeLoader();
-            }
-            
-        };
-
-        if(!users.length){
-            pullUsers();
-        }
-    },[]);
 
 
     if(opened)
         return (
             <>  
                 <WorkSpacePopUp closePopUp={closeAction} >
-                    <p className="p-[1em] font-[500] text-[var(--black)]">Create New Task !</p>
-                    <InputFiled  value={task} onChange={setTask} label="The Task" placeHolader="Do Somthing ..." className="!items-center" labelClassName="mr-[auto] ml-[3em]" inputClassName="bg-[var(--white)] w-[80%]" />
-                    <SelectorFiled value={assignedTo} onChange={setAssignedTo} key={'selectUser'} label="Assigne To"  options={projectUsers} labelClassName="mr-[auto] ml-[3em]" />
+                    <p className="p-[1em] font-[500] text-[var(--black)]">Update State of  Task !</p>
+                    <InputFiled  value={task} onChange={setTask} label="The Task" placeHolader="Do Somthing ..." className="!items-center hidden" labelClassName="mr-[auto] ml-[3em]" inputClassName="bg-[var(--white)] w-[80%]" />
+                    <SelectorFiled value={assignedTo} onChange={setAssignedTo} key={'selectUser'} label="Assigne To"  options={projectUsers} className='hidden' labelClassName="mr-[auto] ml-[3em]" />
                     <SelectorFiled value={priority} onChange={setPriority} key={'PriorityUser'} label="Priority"  options={priorityOptions} labelClassName="mr-[auto] ml-[3em]" />
                     <div className="w-[100%] h-[2em] my-[1em] mb-[1em] pr-[2.5em] flex justify-end items-center max-[768px]:justify-center max-[768px]:pr-[0]">
                         <BlueBtn  click={closeAction} label="Cancel" className="!m-[0] !mx-[.4em] py-[0] border border-[3px] !text-[var(--light-blue)] border-[var(--light-blue)] !bg-[var(--white)]" />

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import WidBlueBtn from "../Buttons/WidBlueBtn";
 import WidGreenBtn from "../Buttons/WidGreenBtn";
 import { useDispatch } from "react-redux";
@@ -94,8 +94,8 @@ export default function ProjectCard({id,name,project_status,createdAt,userFirstN
                 {
                     openMenu &&
                     <div ref={contextMenu} className="absolute top-1/2 left-1/2 w-[9em] rounded-[4px] bg-[var(--white)] rounded-[10px] shadow-[0px_0px_20px_1px_var(--dark-blue)]">
-                        <WidBlueBtn onClick={setUpdatedId} label="Edit" className="max-w-[80%] !m-[0] !my-[.5em] !mx-[auto]  opacity-80 hover:opacity-100" />
-                        <WidBlueBtn onClick={()=>setDelete(true)} label="Delete" className="max-w-[80%] !m-[0] !my-[.5em] !mx-[auto]  opacity-80 hover:opacity-100" />
+                        <WidBlueBtn onClick={(e)=>{e.stopPropagation();setUpdatedId();}} label="Edit" className="max-w-[80%] !m-[0] !my-[.5em] !mx-[auto]  opacity-80 hover:opacity-100" />
+                        <WidBlueBtn onClick={(e)=>{e.stopPropagation();setDelete(true);}} label="Delete" className="max-w-[80%] !m-[0] !my-[.5em] !mx-[auto]  opacity-80 hover:opacity-100" />
                     </div>
                 }
             </div>

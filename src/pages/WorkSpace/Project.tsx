@@ -57,7 +57,6 @@ export default function Project(){
                     <div className="w-[100%] flex justify-between  ">
                         <p className="font-[600] text-[.9em]">Very Important :</p>
                     </div>
-
                     {
                         veryImpTasks.map(task=> <TaskCard id={task.id} task={task.task} createdAt={task.createdAt} project={task.project} key={'task '+task.id} assignedTo={task.assignedTo} accepted={task.accepted} updatedAt={task.updatedAt} priority={task.priority}  />)
                     }
