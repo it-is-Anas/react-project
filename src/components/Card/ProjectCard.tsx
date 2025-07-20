@@ -4,6 +4,7 @@ import WidGreenBtn from "../Buttons/WidGreenBtn";
 import { useDispatch } from "react-redux";
 import { setProject, setProjectIdToDelete, setUpdatePorjectId } from "../../Store/Slices/Projects";
 import { useNavigate } from "react-router-dom";
+import { timeAgo } from "../../Helpers/Time";
 
 interface props {
     id: number,
@@ -78,7 +79,7 @@ export default function ProjectCard({id,name,project_status,createdAt,userFirstN
                 </div>
                 <div className="w-[100%] border-b border-black py-[.3em] flex items-center justify-between">
                     <p className="">Date</p>
-                    <p className="text-[var(--dark-blue)]">{createdAt} </p>
+                    <p className="text-[var(--dark-blue)]">{timeAgo(createdAt)} </p>
                 </div>
                 <div className="w-[100%] border-b border-black py-[.3em] flex items-center justify-between">
                     <p className="">Doer</p>

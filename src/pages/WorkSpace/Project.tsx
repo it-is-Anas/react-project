@@ -6,6 +6,7 @@ import TaskCard from "../../components/Card/TaskCard";
 import { useEffect } from "react";
 import axios from "axios";
 import { setTasks } from "../../Store/Slices/Task";
+import { useParams } from "react-router-dom";
 const BACK_URL = import.meta.env.VITE_API_URL;
 
 
@@ -14,6 +15,7 @@ export default function Project(){
     // id = id ? id : +1;
     const dispatch = useDispatch();
 
+    const projectId = useParams().id;
 
     const tasks = useSelector((state:RootState)=>state.task.tasks);
     const notImpTasks = tasks.filter(ele=>ele.priority === 'not imp');
@@ -22,7 +24,7 @@ export default function Project(){
     
     useEffect(()=>{
         const pullTasks = async ()=>{
-            const response = await axios.get(BACK_URL+'/task',{
+            const response = await axios.get(BACK_URL+'/task/'+projectId,{
                 headers: {
                     Authorization: 'Bearer '+localStorage.getItem('token'),
                 }
@@ -71,7 +73,6 @@ export default function Project(){
                 <div className="col-[1/5] py-[.4em] px-[.2em] overflow-y-scroll ">
                     <div className="w-[100%] flex justify-between  ">
                         <p className="font-[600] text-[.9em]">Very Important :</p>
-                        <p className="font-[700] text-[1em] cursor-pointer">+</p>
                     </div>
 
                     {
@@ -81,7 +82,6 @@ export default function Project(){
                 <div className="col-[5/9] py-[.4em] px-[.2em] overflow-y-scroll ">
                     <div className="w-[100%] flex justify-between  ">
                         <p className="font-[600] text-[.9em]">Important :</p>
-                        <p className="font-[700] text-[1em] cursor-pointer">+</p>
                     </div>
 
                     {
@@ -91,7 +91,6 @@ export default function Project(){
                 <div className="col-[9/13] py-[.4em] px-[.2em] overflow-y-scroll ">
                     <div className="w-[100%] flex justify-between  ">
                         <p className="font-[600] text-[.9em]">Not Important :</p>
-                        <p className="font-[700] text-[1em] cursor-pointer">+</p>
                     </div>
 
                     {

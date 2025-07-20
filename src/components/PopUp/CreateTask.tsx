@@ -41,7 +41,7 @@ export default function CreateTaskPopUp(){
             setProjectUsers(options);
         }
     },[users]);
-    
+        
     const priorityOptions = [{label:'imp',id:0},{label:'not imp',id:1},{label:'very imp',id:2},];
     const [priority,setPriority] = useState<string|number>(0);
     

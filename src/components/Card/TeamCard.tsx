@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { removeTeam , setUpdatedId} from '../../Store/Slices/Teams';
 import { setLoader } from "../../Store/Slices/System";
 import axios from "axios";
+import { timeAgo } from "../../Helpers/Time";
 
 const BACK_URL = import.meta.env.VITE_API_URL;
 
@@ -102,7 +103,7 @@ export default function TeamCard({id,name,createdAt,userFirstName,userLastName,p
                 </div>
                 <div className="w-[100%] border-b border-black py-[.3em] flex items-center justify-between">
                     <p className="">Date</p>
-                    <p className="text-[var(--dark-blue)]">{createdAt} </p>
+                    <p className="text-[var(--dark-blue)]">{timeAgo(createdAt)} </p>
                 </div>
                 <div className="w-[100%]  py-[.3em] flex items-center justify-between">
                     <WidGreenBtn label="view more" className="my-[0]" ></WidGreenBtn>
