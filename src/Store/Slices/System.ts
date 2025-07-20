@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface initialStateType {
     loader: boolean,
-    message: string,
+    message: string, 
 } ;
 
 const initialState: initialStateType ={

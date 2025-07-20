@@ -9,13 +9,21 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../Store/main";
 import { setUsers } from "../../Store/Slices/Users";
 import { addNewTask, setTaskPopUp } from "../../Store/Slices/Task";
+import { setLoader, setMessage } from "../../Store/Slices/System";
 const BACK_URL = import.meta.env.VITE_API_URL;
 
 
 export default function CreateTaskPopUp(){
 
     const dispatch = useDispatch();
-    
+    const openLoader = ()=>dispatch(setLoader(true));
+    const closeLoader = ()=>dispatch(setLoader(false));
+
+    const msg = (message: string)=>{
+        dispatch(setMessage(message));
+    };
+
+
     const opened = useSelector((state:RootState)=> state.task.taskPopUp); 
     const setOpened = (bool:boolean)=> dispatch(setTaskPopUp(bool));
     
@@ -50,21 +58,30 @@ export default function CreateTaskPopUp(){
     useEffect(()=>{
         if(save){
             const createTask = async ()=>{
-                const reponse = await axios.post(BACK_URL+'/task',{
-                    task: task,
-                    project_id: +projectId,
-                    assigned_to: +assignedTo,
-                    priority: priorityOptions[+priority]['label']
-                },{
-                    headers:{
-                        Authorization: 'Bearer '+localStorage.getItem('token') 
+                openLoader();
+                try{
+                    const reponse = await axios.post(BACK_URL+'/task',{
+                        task: task,
+                        project_id: +projectId,
+                        assigned_to: +assignedTo,
+                        priority: priorityOptions[+priority]['label']
+                    },{
+                        headers:{
+                            Authorization: 'Bearer '+localStorage.getItem('token') 
+                        }
+                    });
+                    if(reponse.status === 201){
+                        dispatch(addNewTask(reponse.data));
                     }
-                });
-                if(reponse.status === 201){
-                    dispatch(addNewTask(reponse.data));
-                }
-                console.log(reponse);
-            };
+                        console.log(reponse);
+                    }catch(err){
+                        if(err.status === 403){
+                            msg('access deny, you don\'t have the permesion to this project')
+                        }
+                    }finally{
+                        closeLoader();
+                    }
+                };
             createTask();
             closeAction();
             setSave(false);
@@ -74,12 +91,19 @@ export default function CreateTaskPopUp(){
 
     useEffect(()=>{
         const pullUsers = async ()=>{
-            const response = await axios.get(BACK_URL+'/user',{
-                headers:{
-                    Authorization: 'Bearer '+localStorage.getItem('token'),
-                }
-            });
-            dispatch(setUsers(response.data.users));
+            openLoader();
+            try{
+                const response = await axios.get(BACK_URL+'/user',{
+                    headers:{
+                        Authorization: 'Bearer '+localStorage.getItem('token'),
+                    }
+                });
+                dispatch(setUsers(response.data.users));
+            }catch(err){
+                console.log(err);
+            }finally{
+                closeLoader();
+            }
             
         };
 
@@ -87,6 +111,7 @@ export default function CreateTaskPopUp(){
             pullUsers();
         }
     },[]);
+
 
     if(opened)
         return (
