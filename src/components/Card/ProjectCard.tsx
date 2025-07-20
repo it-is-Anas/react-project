@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import WidBlueBtn from "../Buttons/WidBlueBtn";
 import WidGreenBtn from "../Buttons/WidGreenBtn";
 import { useDispatch } from "react-redux";
-import { setProjectIdToDelete, setUpdatePorjectId } from "../../Store/Slices/Projects";
+import { setProject, setProjectIdToDelete, setUpdatePorjectId } from "../../Store/Slices/Projects";
+import { useNavigate } from "react-router-dom";
 
 interface props {
     id: number,
@@ -52,9 +53,16 @@ export default function ProjectCard({id,name,project_status,createdAt,userFirstN
         }   
     },[toDelete]);
 
+    
+    const navigate = useNavigate();
+    const clickHandler = ()=>{
+        dispatch(setProject(id));
+        navigate('/work-space/projects/'+id);
+    };
+
     return (
         <>
-            <div  onContextMenu={(e)=>{e.preventDefault();setOpenMenu(true);}} className=" relative w-[20em] auto rounded-[10px] p-[.5em] text-[12px]  bg-[var(--gray)] m-[.5em] font-[600]">
+            <div onClick={clickHandler}  onContextMenu={(e)=>{e.preventDefault();setOpenMenu(true);}} className=" relative w-[20em] auto rounded-[10px] p-[.5em] text-[12px]  bg-[var(--gray)] m-[.5em] font-[600] cursor-pointer">
                 <p className="font-[700] py-[1em] border-b border-black">Project Card</p>
                 <div className="w-[100%] border-b border-black py-[.3em] flex items-center justify-between">
                     <p className="">ID</p>

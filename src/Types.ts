@@ -31,5 +31,15 @@ interface Team {
 
 
 
+interface Task{
+    id: number,
+    task: string,
+    project?: Project,
+    assignedTo?: User,
+    priority: string,
+    accepted: boolean,
+    createdAt: string,
+    updatedAt: string,
+};
 
-export type { User , Project , Team  };
+export type { User , Project , Team ,Task };

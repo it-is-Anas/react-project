@@ -38,8 +38,8 @@ export default function LandingPage(){
                         Lipsum generator: Lorem Ipsum - All the facts Lipsum generator: Lorem Ipsum - All the facts Lipsum generator: Lorem Ipsum - All the facts
                     </p>
                     <div className="ml-[auto] mr-[1em] max-[768px]:mx-[auto] ">
-                        <GrayBtn label="Sign Up" />
-                        <BlueBtn label="Log In" />
+                        <GrayBtn link="/log/sign-up" label="Sign Up" />
+                        <BlueBtn link='/log' label="Log In" />
                     </div>
                 </div>
                 <div className="w-[100%] h-[100%] flex flex-col justify-center items-center  ">

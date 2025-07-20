@@ -7,12 +7,15 @@ interface initialStateType {
     projects: Project[],
     updatedProjectId: number,
     deletedProjectId: number,
+    project: Project|null,
 } ;
 
 const initialState: initialStateType ={
         projects: [],
         updatedProjectId: -1,
         deletedProjectId: -1,
+        project: null,
+
     };
 export const counterSlice = createSlice({
     name: 'projects',
@@ -38,9 +41,12 @@ export const counterSlice = createSlice({
         },removeProject(state){
             state.projects  = state.projects.filter(project=>project.id !== state.deletedProjectId);
             state.deletedProjectId = -1;
-        }
+        },setProject(state,{ payload }){
+            const project = state.projects.filter((proj:Project)=> proj.id === payload);
+            state.project = project[0];
+        },
     },
 });
 
-export const { pullProjects , setUpdatePorjectId  , createProject  , updateExisitProject , setProjectIdToDelete ,removeProject } = counterSlice.actions;
+export const { pullProjects , setUpdatePorjectId  , createProject  , updateExisitProject , setProjectIdToDelete ,removeProject , setProject } = counterSlice.actions;
 export default counterSlice.reducer;

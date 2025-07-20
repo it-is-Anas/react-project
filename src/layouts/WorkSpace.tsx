@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 
 import IconBtn from "../components/Buttons/IconBtn";
 import HeaderLogo from "../components/Logo/HeaderLogo";
@@ -23,6 +23,8 @@ import type { RootState } from "../Store/main";
 import axios from "axios";
 import { removeProject } from "../Store/Slices/Projects";
 import { setMessage , setLoader } from "../Store/Slices/System";
+import CreateTaskPopUp from "../components/PopUp/CreateTask";
+import { setTaskPopUp } from "../Store/Slices/Task";
 
 
 export default function WorkSpace(){
@@ -70,9 +72,12 @@ export default function WorkSpace(){
     
 
     const location = useLocation();
-    let createBtn:React.ReactNode  = <WidGreenBtn click={openCreateProjectPopUp} label="+ Add New Project" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  />;
+    const { id } = useParams();    
+    let createBtn:React.ReactNode  ;
     if(location.pathname === '/work-space/projects'){
         createBtn = <WidGreenBtn click={openCreateProjectPopUp} label="+ Add New Project" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  />;
+    }else if(location.pathname === '/work-space/projects/'+id){
+        createBtn = <WidGreenBtn click={()=> dispatch(setTaskPopUp(true))} label="+ Create New Task" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  />;
     }
     else if(location.pathname === '/work-space/teams'){
         createBtn = <WidGreenBtn click={openCreateTeamPopUp} label="+ Add New Team" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px] '  />;
@@ -146,6 +151,7 @@ export default function WorkSpace(){
             <CreateProjectPopUp message={message} openLoader={openLoader} closeLoader={closeLoader} pushOpen={setCreateProjectOpenPopUp} />
             <UpdateProjectPopUp  message={message} openLoader={openLoader} closeLoader={closeLoader}  />
             <CreateTeamPopUp message={message} openLoader={openLoader} closeLoader={closeLoader} pushOpen={setCreateTeamOpenPopUp} />
+            <CreateTaskPopUp />
         </>
     );
 }
