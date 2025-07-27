@@ -47,7 +47,7 @@ export default function Projects (){
 
     return (
         <>
-            <div className="w-[100%] h-[100%] "  >
+            <div className="w-[100%] h-[100%]"  >
                 <p className="font-[600] text-[var(--drak-blue)] py-[.5em] px-[1.5em]">Your Pojects</p>
                 <div className="w-[100%] max-h-[calc(100%-2.5em)] justify-items-center  grid grid-cols-[repeat(auto-fill,minmax(16em,1fr))] gap-4 p-4 overflow-y-scroll"  >
                     {

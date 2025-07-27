@@ -37,6 +37,7 @@ interface Task{
     project?: Project,
     assignedTo?: User,
     priority: string,
+    done?: boolean,
     accepted: boolean,
     createdAt: string,
     updatedAt: string,

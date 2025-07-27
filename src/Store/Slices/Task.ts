@@ -7,13 +7,16 @@ interface initialStateType {
     taskPopUp: boolean,
     tasks: Task[],
     stateTask: number,
+    myTask: Task[],
 } ;
 
 const initialState: initialStateType ={
     taskPopUp: false,
     tasks: [],
     stateTask: -1,
+    myTask: [],
 };
+
 export const counterSlice = createSlice({
     name: 'tasks',
     initialState,
@@ -34,9 +37,11 @@ export const counterSlice = createSlice({
                 }
                 return task;
             });
+        },setMyTasks(state,{ payload }){
+            state.myTask = payload;
         }
     },
 });
 
-export const { setTaskPopUp , setTasks , addNewTask , setStateTask , updateExsist } = counterSlice.actions;
+export const { setTaskPopUp , setTasks , addNewTask , setStateTask , updateExsist , setMyTasks } = counterSlice.actions;
 export default counterSlice.reducer;

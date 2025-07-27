@@ -24,6 +24,7 @@ export default function Project(){
     const veryImpTasks = tasks.filter(ele=>ele.priority === 'very imp');
     
     useEffect(()=>{
+        // dispatch(setTasks([]));
         const pullTasks = async ()=>{
             const response = await axios.get(BACK_URL+'/task/'+projectId,{
                 headers: {
@@ -34,9 +35,9 @@ export default function Project(){
                 dispatch(setTasks(response.data));
             }
         };
-        if(!tasks.length){
+        // if(!tasks.length){
             pullTasks();
-        }
+        // }
     },[]);
 
 

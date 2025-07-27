@@ -4,8 +4,8 @@ import IconBtn from "../components/Buttons/IconBtn";
 import HeaderLogo from "../components/Logo/HeaderLogo";
 
 import projectIcon from '../assets/SystemeVector/projects.png';
+import taskIcon from '../assets/SystemeVector/Task.png';
 import teamIcon from '../assets/SystemeVector/teams.png';
-
 import mobileMenu from '../assets/SystemeVector/mobileMenu.png';
 
 
@@ -74,7 +74,7 @@ export default function WorkSpace(){
 
     const location = useLocation();
     const { id } = useParams();    
-    let createBtn:React.ReactNode  ;
+    let createBtn:React.ReactNode =<WidGreenBtn click={openCreateProjectPopUp} label="+ Add New Project" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  /> ;
     if(location.pathname === '/work-space/projects'){
         createBtn = <WidGreenBtn click={openCreateProjectPopUp} label="+ Add New Project" className='mx-[auto] w-[90%] !bg-[var(--light-green)] !font-[700] py-[1em] text-[11px]'  />;
     }else if(location.pathname === '/work-space/projects/'+id){
@@ -121,6 +121,7 @@ export default function WorkSpace(){
                 <HeaderLogo />
                 { createBtn }
                 <IconBtn isLink={true} to='/work-space/projects' label="Projects" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={projectIcon} />
+                <IconBtn isLink={true} to='/work-space/tasks' label="Tasks" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={taskIcon} />
                 <IconBtn isLink={true} to='/work-space/teams' label="Teams" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={teamIcon} />
             </aside>
             <div className="col-[4/13] h-[100dvh] ">
@@ -141,6 +142,9 @@ export default function WorkSpace(){
                     { createBtn }
                     <span onClick={()=>setOpenMobileMenu(false)} >
                         <IconBtn isLink={true} to='/work-space/projects' label="Projects" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px]" imgClassName='w-[1.3em] ml-[0]' icon={projectIcon} />
+                    </span>
+                    <span onClick={()=>setOpenMobileMenu(false)} >
+                        <IconBtn isLink={true} to='/work-space/tasks' label="Tasks" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px] " imgClassName='w-[1.3em] ml-[0]' icon={taskIcon} />
                     </span>
                     <span onClick={()=>setOpenMobileMenu(false)} >
                         <IconBtn isLink={true} to='/work-space/teams' label="Teams" className=" mx-[auto] w-[90%] bg-[var(--white)] !text-[var(--dark-blue)] !justify-start !p-[.7em] text-[11px]" imgClassName='w-[1.3em] ml-[0]' icon={teamIcon} />

@@ -11,6 +11,7 @@ import WorkSpace from "../layouts/WorkSpace";
 import Projects from "../pages/WorkSpace/Projects";
 import Project from "../pages/WorkSpace/Project";
 import Teams from "../pages/WorkSpace/Teams";
+import Tasks from "../pages/WorkSpace/Tasks";
 
 
 
@@ -30,6 +31,7 @@ export default function App() {
             <Route index element={<Projects />} />
             <Route path=":id" element={<Project />} />
           </Route>
+          <Route path='tasks' element={<Tasks />} />
           <Route path='teams' element={<Teams />} />
         </Route>
       </Routes>
