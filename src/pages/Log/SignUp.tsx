@@ -90,7 +90,7 @@ export default function SignUp(){
             if(response.status === 201){
                 message(response.data.message);
                 dispatch(updateData({token: response.data.token,user: response.data.user}));
-                navigate('/work-space');
+                navigate('/work-space/projects');
             }
             closeLoader();
         }catch(err){            

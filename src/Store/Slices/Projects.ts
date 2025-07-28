@@ -42,8 +42,12 @@ export const counterSlice = createSlice({
             state.projects  = state.projects.filter(project=>project.id !== state.deletedProjectId);
             state.deletedProjectId = -1;
         },setProject(state,{ payload }){
-            const project = state.projects.filter((proj:Project)=> proj.id === payload);
-            state.project = project[0];
+            if(typeof(payload) === 'number'){
+                const project = state.projects.filter((proj:Project)=> proj.id === payload);
+                state.project = project[0];
+            }else{
+                state.project = payload;
+            }
         },
     },
 });

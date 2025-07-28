@@ -8,12 +8,11 @@ import axios from "axios";
 import { setTasks } from "../../Store/Slices/Task";
 import { useParams } from "react-router-dom";
 import { timeAgo } from "../../Helpers/Time";
+import { setProject } from "../../Store/Slices/Projects";
 const BACK_URL = import.meta.env.VITE_API_URL;
 
 
 export default function Project(){
-    // let { id } = useParams();
-    // id = id ? id : +1;
     const dispatch = useDispatch();
 
     const projectId = useParams().id;
@@ -23,8 +22,11 @@ export default function Project(){
     const impTasks = tasks.filter(ele=>ele.priority === 'imp');
     const veryImpTasks = tasks.filter(ele=>ele.priority === 'very imp');
     
+
+    const project: (Project| null) = useSelector((state: RootState)=> state.project.project);
+
     useEffect(()=>{
-        // dispatch(setTasks([]));
+        // dispatch(setTasks([])); 
         const pullTasks = async ()=>{
             const response = await axios.get(BACK_URL+'/task/'+projectId,{
                 headers: {
@@ -35,14 +37,27 @@ export default function Project(){
                 dispatch(setTasks(response.data));
             }
         };
-        // if(!tasks.length){
-            pullTasks();
-        // }
+        const pullProject = async ()=>{
+            try{
+                const response = await axios.get(BACK_URL+'/project/'+projectId,{
+                headers: {
+                    Authorization: 'Bearer '+localStorage.getItem('token'),
+                }
+            });
+            if(response.status === 200){
+                dispatch(setProject(response.data));
+            }
+            }catch(err){
+                console.log(err);
+            };
+        };
+        pullTasks();
+        if(!project)
+            pullProject();
     },[]);
 
 
 
-    const project: (Project| null) = useSelector((state: RootState)=> state.project.project);
 
     return (
         <>
