@@ -46,34 +46,36 @@ export default function LandingPage(){
                     <img src={l1Img} alt="" className="w-[20em]" />
                 </div>
             </div>
-            <div className="mx-auto w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full   bg-[var(--gray)]  rounded-[10px] p-[1em] ">
-                <p className="p-[10px] font-semibold text-[var(--light-blue)] text-[1.3em]">Create new Account to be part</p>
-                <p className="px-[10px] text-[var(--dark-blue)] font-bold text-[1.6em]">Create an account and take advantage of the free offer</p>
-                <div className="w-full h-[70%]  flex justify-around items-flex my-[1em] max-[768px]:flex-col max-[768px]:items-center max-[768px]:text-[1em] max-[768px]:h-[100vh]">
-                    <LandingPageFeature 
-                        icon={icon1} 
-                        label=' Security & Customization' 
-                        desc='User Roles & Permissions
-                            Dark Mode / Themes
-                            Two-Factor Authentication
-                            Data Backup & Export Options' />
-                    <LandingPageFeature 
-                        icon={icon2} 
-                        label='  Integration & Syncing' 
-                        desc='User Roles & Permissions
-                            Dark Mode / Themes
-                            Two-Factor Authentication
-                            Data Backup & Export Options' />
-                    <LandingPageFeature 
-                        icon={icon3} 
-                        label=' Collaboration Tools' 
-                        desc='User Roles & Permissions
-                            Dark Mode / Themes
-                            Two-Factor Authentication
-                            Data Backup & Export Options' />
+            <div className="w-[100dvw] min-h-[100dvh] flex items-center flex-col justfiy-center">
+                <div className="mx-auto w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full   bg-[var(--gray)]  rounded-[10px] p-[1em] ">
+                    <p className="p-[10px] font-semibold text-[var(--light-blue)] text-[1.3em]">Create new Account to be part</p>
+                    <p className="px-[10px] text-[var(--dark-blue)] font-bold text-[1.6em]">Create an account and take advantage of the free offer</p>
+                    <div className="w-full h-[70%]  flex justify-around items-flex my-[1em] max-[768px]:flex-col max-[768px]:items-center max-[768px]:text-[1em] max-[768px]:h-[100vh]">
+                        <LandingPageFeature 
+                            icon={icon1} 
+                            label=' Security & Customization' 
+                            desc='User Roles & Permissions
+                                Dark Mode / Themes
+                                Two-Factor Authentication
+                                Data Backup & Export Options' />
+                        <LandingPageFeature 
+                            icon={icon2} 
+                            label='  Integration & Syncing' 
+                            desc='User Roles & Permissions
+                                Dark Mode / Themes
+                                Two-Factor Authentication
+                                Data Backup & Export Options' />
+                        <LandingPageFeature 
+                            icon={icon3} 
+                            label=' Collaboration Tools' 
+                            desc='User Roles & Permissions
+                                Dark Mode / Themes
+                                Two-Factor Authentication
+                                Data Backup & Export Options' />
+                    </div>
                 </div>
             </div>
-            <div className="mx-auto  w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full py-[5em]  max-[768px]:px-[1em] ">
+            <div className="w-[100dvw] min-h-[100dvh] flex flex-col items-center justfiy-center mx-auto  w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full py-[5em]  max-[768px]:px-[1em] ">
                 <LandingPageHeadLine headLine="Why All prefere us" subHeadLine="Why Us" />
                 <div className="w-[100%]  flex justify-center items-start flex-col leading-[2]">
                     <p className="text-[1.3em] font-[500] text-[var(--light-blue)]">Built for Doers, Dreamers, and Teams</p>
@@ -90,29 +92,32 @@ export default function LandingPage(){
                     </p>
                 </div>
             </div>
-            <div className="mx-auto  w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full max-[768px]:px-[1em] ">
-                <LandingPageHeadLine headLine="What Task it offer" subHeadLine="Services" />
-                <div className="flex justify-around items-center max-[768px]:flex-col">
-                    <LandingPageService img={serviceImg1} label="Security" />
-                    <LandingPageService img={serviceImg3} label="Easy & free to use" />
-                    <LandingPageService img={serviceImg2} label="Solve with team" />
+            <div className="w-[100dvw] min-h-[100dvh] flex flex-col items-center justfiy-center">
+                <div className=" mx-auto  w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full max-[768px]:px-[1em] ">
+                    <LandingPageHeadLine headLine="What Task it offer" subHeadLine="Services" />
+                    <div className="flex justify-around items-center max-[768px]:flex-col">
+                        <LandingPageService img={serviceImg1} label="Security" />
+                        <LandingPageService img={serviceImg3} label="Easy & free to use" />
+                        <LandingPageService img={serviceImg2} label="Solve with team" />
+                    </div>
                 </div>
             </div>
-            <div className="mx-auto  w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full max-[768px]:px-[1em] ">
-                <LandingPageHeadLine headLine="Let's talk to us" subHeadLine="Contact us" />
-                
-                <div className="w-[100%]  grid grid-cols-2 max-[768px]:grid-cols-1 max-[768px]:grid-rows-2">
-                    <div className="w-[100%] h-[100%] flex flex-col justify-center items-center max-[768px]:hidden ">
-                        <img src={contactMeImg} alt="" className="w-[50%]" />
+            <div className="w-[100dvw] min-h-[100dvh] flex flex-col items-center justfiy-center">
+                <div className="mx-auto  w-[990px] max-[1000px]:w-[768px] max-[768px]:w-[550px] max-[550px]:w-full max-[768px]:px-[1em] ">
+                    <LandingPageHeadLine headLine="Let's talk to us" subHeadLine="Contact us" />
+                    <div className="w-[100%]  grid grid-cols-2 max-[768px]:grid-cols-1 max-[768px]:grid-rows-2">
+                        <div className="w-[100%] h-[100%] flex flex-col justify-center items-center max-[768px]:hidden ">
+                            <img src={contactMeImg} alt="" className="w-[50%]" />
+                        </div>
+                        <div className="w-[100%] h-[100%] flex flex-col justify-center items-center  max-[768px]:text-center  max-[768px]:row-[1/3] ">
+                            <p className=" w-[15em] text-[1.2em] font-[500]">Send a message :</p>
+                            <InputFiled label="name" placeHolader="Youseff" />
+                            <InputFiled label="email" placeHolader="Youseff@example.com" />
+                            <TextFiled />
+                            <WidGreenBtn label="Send" />
+                        </div>
+                        
                     </div>
-                    <div className="w-[100%] h-[100%] flex flex-col justify-center items-center  max-[768px]:text-center  max-[768px]:row-[1/3] ">
-                        <p className=" w-[15em] text-[1.2em] font-[500]">Send a message :</p>
-                        <InputFiled label="name" placeHolader="Youseff" />
-                        <InputFiled label="email" placeHolader="Youseff@example.com" />
-                        <TextFiled />
-                        <WidGreenBtn label="Send" />
-                    </div>
-                    
                 </div>
             </div>
             <footer className="w-[100dvw] h-[3em] flex items-center  justify-center bg-[var(--light-blue)] text-[var(--white)] font-[600]" >

@@ -15,8 +15,6 @@ export default function TaskCard({id,task,project,assignedTo,priority,accepted,c
     const openChangeStatePopUp = () => dispatch(setStateTask(id));
     
     
-
-
     return (
         <div className="w-[90%] mx-[auto] rounded-[5px] my-[.5em] p-[.9em] bg-[var(--gray)] text-[var(--dark-blue)] ">
             <div className="flex  justify-between  items-center ">
