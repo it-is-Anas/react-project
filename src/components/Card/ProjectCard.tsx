@@ -63,7 +63,7 @@ export default function ProjectCard({id,name,project_status,createdAt,userFirstN
 
     return (
         <>
-            <div onClick={clickHandler}  onContextMenu={(e)=>{e.preventDefault();setOpenMenu(true);}} className=" relative w-[20em] auto rounded-[10px] p-[.5em] text-[12px]  bg-[var(--gray)] m-[.5em] font-[600] cursor-pointer">
+            <div   onContextMenu={(e)=>{e.preventDefault();setOpenMenu(true);}} className=" relative w-[20em] auto rounded-[10px] p-[.5em] text-[12px]  bg-[var(--gray)] m-[.5em] font-[600]">
                 <p className="font-[700] py-[1em] border-b border-black">Project Card</p>
                 <div className="w-[100%] border-b border-black py-[.3em] flex items-center justify-between">
                     <p className="">ID</p>
@@ -85,17 +85,14 @@ export default function ProjectCard({id,name,project_status,createdAt,userFirstN
                     <p className="">Doer</p>
                     <p className="text-[var(--dark-blue)]">{userFirstName} {userLastName}</p>
                 </div>
-                {/* <div className="w-[100%] border-b border-black py-[.3em] flex items-center justify-between">
-                    <p className="text-center px-[.2em] text-[var(--dark-blue)]">And as I begin to live. And I love you, I miss you. I love you, and you are the light of my eyes. And you are the light of my eyes …</p>
-                </div> */}
-                <div className="w-[100%]  py-[.3em] flex items-center justify-between">
-                    <WidGreenBtn label="view more" className="my-[0]" ></WidGreenBtn>
+                <div className="w-[100%]  py-[.3em]  flex items-center justify-between">
+                    <WidGreenBtn click={clickHandler} label="view more" className="my-[0] !bg-[var(--light-blue)]" ></WidGreenBtn>
                 </div>
                 {
                     openMenu &&
                     <div ref={contextMenu} className="absolute top-1/2 left-1/2 w-[9em] rounded-[4px] bg-[var(--white)] rounded-[10px] shadow-[0px_0px_20px_1px_var(--dark-blue)]">
-                        <WidBlueBtn onClick={(e)=>{e.stopPropagation();setUpdatedId();}} label="Edit" className="max-w-[80%] !m-[0] !my-[.5em] !mx-[auto]  opacity-80 hover:opacity-100" />
-                        <WidBlueBtn onClick={(e)=>{e.stopPropagation();setDelete(true);}} label="Delete" className="max-w-[80%] !m-[0] !my-[.5em] !mx-[auto]  opacity-80 hover:opacity-100" />
+                        <WidBlueBtn onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{e.stopPropagation();setUpdatedId();}} label="Edit" className="max-w-[80%] !m-[0] !my-[.5em] !mx-[auto]  opacity-80 hover:opacity-100" />
+                        <WidBlueBtn onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{e.stopPropagation();setDelete(true);}} label="Delete" className="max-w-[80%] !m-[0] !my-[.5em] !mx-[auto]  opacity-80 hover:opacity-100" />
                     </div>
                 }
             </div>
