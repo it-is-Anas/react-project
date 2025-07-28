@@ -113,7 +113,7 @@ export default function LandingPage(){
                             <p className=" w-[15em] text-[1.2em] font-[500]">Send a message :</p>
                             <InputFiled label="name" placeHolader="Youseff" />
                             <InputFiled label="email" placeHolader="Youseff@example.com" />
-                            <TextFiled />
+                            <TextFiled label="message" placeHolader="hello ..." />
                             <WidGreenBtn label="Send" />
                         </div>
                         

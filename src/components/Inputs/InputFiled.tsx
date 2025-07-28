@@ -6,7 +6,7 @@ interface props {
     value?: string,
     onChange?: (value: string) => void;
     className?: string,
-    inputClassName?: string,
+    inputClassName?: string, 
     labelClassName?:string,
 };
 
